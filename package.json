@@ -1,0 +1,26 @@
+{
+  "name": "social-media-image-resizer",
+  "version": "1.0.0",
+  "description": "This is a MINI project resize your Photo according different Social Media acceptable sizes and gives download option for output image.",
+  "main": "index.js",
+  "scripts": {
+    "test": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pradiptechie/Social-Media-Image-Resizer.git"
+  },
+  "author": "Pradip Singh",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pradiptechie/Social-Media-Image-Resizer/issues"
+  },
+  "homepage": "https://github.com/pradiptechie/Social-Media-Image-Resizer#readme",
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "express": "^4.18.2",
+    "hbs": "^4.2.0",
+    "multer": "^1.4.5-lts.1",
+    "sharp": "^0.32.6"
+  }
+}

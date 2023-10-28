@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Social Media Image Resizer Tool</title>
+<style>
+    @import url("https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap");
+
+    * {
+      font-family: "Ubuntu", sans-serif;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    :root {
+        --blue: #2a2185;
+        --blue2: #4236ce;
+        --white: #fff;
+        --gray: #f4f4f4;
+        --gray2: #eeecec;
+        --black1: #222;
+        --black2: #999;
+    }
+
+    body {
+        background: var(--gray);
+        color: var(--black1);
+        margin: 0;
+        padding: 0;
+    }
+    table {
+      width: 100%; 
+      border-collapse: separate;
+      border-spacing: 10px;
+    }
+
+
+    h1 {
+        text-align: center;
+        color: var(--white);
+        background: var(--blue);
+        padding: 20px;
+        margin: 0;
+    }
+
+    form {
+        margin: 20px;
+        padding: 20px;
+        background: var(--white);
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    }
+    input[type="file"] {
+        padding: 10px;
+        border: 2px solid var(--blue);
+        border-radius: 5px;
+        width: 80%;
+        margin-bottom: 20px;
+    }
+
+    select {
+        padding: 12px;
+        border: 2px solid var(--blue);
+        border-radius: 5px;
+        width: 80%;
+        margin-bottom: 20px;
+     }
+
+    button {
+        width: 100%;
+        background: var(--blue);
+        color: var(--white);
+        padding: 12px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+        background: var(--blue2);
+    }
+
+    #result, #download {
+        margin: 20px;
+        padding: 20px;
+        background: var(--white);
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    }
+</style>
+
+</head>
+<body>
+    <h1>Social Media Image Resizer Tool</h1>
+    <form id="formSubmit" enctype="multipart/form-data">
+        <table>
+            <tr style="text-align:left; width:200px">
+                <th>
+                    <label for="image">Select Image:</label>
+                </th>
+                {{!-- <th>
+                    <label for="watermarkType">Choose Platform:</label>
+                </th> --}}
+            </tr>
+            <tr>
+                <td>
+                    <input type="file" name="mainImage" accept="image/*">
+                </td>
+                {{!-- <td>
+                    <select id="select-box">
+                        <option value="" disabled selected>Click to choose options</option>
+                        <optgroup label="Instagram">
+                            <option data-width="320" data-height="320">Profile Photo</option>
+                            <option data-width="1080" data-height="1080">Square Image</option>
+                            <option data-width="1080" data-height="1350">Portrait Image</option>
+                            <option data-width="1080" data-height="566">Landscape image</option>
+                            <option data-width="1080" data-height="1920">Reels and Stories</option>
+                        </optgroup>
+                        <optgroup label="Facebook">
+                            <option data-width="180" data-height="180">Profile Photo</option>
+                            <option data-width="820" data-height="310">Cover Photo</option>
+                            <option data-width="1080" data-height="1080">Square Image</option>
+                            <option data-width="1200" data-height="630">Landscape image</option>
+                            <option data-width="1080" data-height="1920">Reels and Stories</option>
+                        </optgroup>
+                        <optgroup label="X">
+                            <option data-width="400" data-height="400">Profile Photo</option>
+                            <option data-width="1500" data-height="500">Header Photo</option>
+                            <option data-width="1080" data-height="1080">Square Image</option>
+                            <option data-width="1600" data-height="900">Landscape image</option>
+                            <option data-width="1600" data-height="900">In Stream</option>
+                        </optgroup>
+                        <optgroup label="LinkedIn">
+                            <option data-width="400" data-height="400">Profile Photo</option>
+                            <option data-width="1584" data-height="396">Banner Photo</option>
+                            <option data-width="1080" data-height="1350">Portrait Image</option>
+                            <option data-width="1080" data-height="1080">Square Image</option>
+                            <option data-width="1200" data-height="627">Post image</option>
+                        </optgroup>
+                        <optgroup label="YouTube">
+                            <option data-width="800" data-height="800">Profile Photo</option>
+                            <option data-width="2560" data-height="1440">Banner Photo</option>
+                            <option data-width="1280" data-height="720">Thumbnail Photo</option>
+                            <option data-width="1080" data-height="1920">YouTube Shorts</option>
+                        </optgroup>
+                    </select>
+                </td> --}}
+            </tr>
+        </table>
+        <button type="submit">Resize</button>
+    </form>
+
+    <div id="result">
+    </div>
+
+    <div id="download">
+    <a id="download-link" href="#" download="resized_image.png" style="display: none;">Download</a>
+    </div>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    //-----------------------------------------------------------
+    const form = document.getElementById('formSubmit');
+    const preview = document.getElementById('result');
+    const download = document.getElementById('download-link');
+    /* const selectBox = document.getElementById('select-box');
+
+    selectBox.addEventListener('change', () => {
+        const selectedOption = selectBox.options[selectBox.selectedIndex];
+        const width = selectedOption.dataset.width;
+        const height = selectedOption.dataset.height;
+
+        // Remove existing hidden input fields for width and height
+        const existingWidthInput = form.querySelector('input[name="width"]');
+        if (existingWidthInput) {
+            form.removeChild(existingWidthInput);
+        }
+
+        const existingHeightInput = form.querySelector('input[name="height"]');
+        if (existingHeightInput) {
+            form.removeChild(existingHeightInput);
+        }
+
+        // Create and add new hidden input fields for width and height
+        const hiddenWidthInput = document.createElement('input');
+        hiddenWidthInput.type = 'hidden';
+        hiddenWidthInput.name = 'width';
+        hiddenWidthInput.value = width;
+        form.appendChild(hiddenWidthInput);
+
+        const hiddenHeightInput = document.createElement('input');
+        hiddenHeightInput.type = 'hidden';
+        hiddenHeightInput.name = 'height';
+        hiddenHeightInput.value = height;
+        form.appendChild(hiddenHeightInput);
+    }); 
+    */
+
+     form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const formData = new FormData(form);
+
+        try {
+            const response = await fetch('/', {
+                method: 'POST',
+                body: formData,
+            });
+
+            if (response.ok) {
+                if (response.headers.get('Content-Type').startsWith('image/')) {
+                    const processedImage = await response.blob();
+                    const imageUrl = URL.createObjectURL(processedImage);
+
+                    // Create an image element to display the processed image
+                    const image = document.createElement('img');
+                    image.src = imageUrl;
+
+                    // Clear the previous content in the "result" div
+                    preview.innerHTML = '';
+                    preview.appendChild(image);
+
+                    // Show the download link
+                    download.style.display = 'block';
+                    download.href = imageUrl;
+                } else {
+                    preview.innerHTML = 'Image processing error';
+                }
+            } else {
+                preview.innerHTML = 'Server error';
+            }
+        } catch (error) {
+            console.error('Fetch error:', error);
+            preview.innerHTML = 'Fetch error';
+        }
+    });
+});
+
+</script>
+</body>
+</html>
