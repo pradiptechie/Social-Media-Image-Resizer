@@ -87,6 +87,11 @@
         border-radius: 5px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     }
+    #result img {
+      max-width: 100%;
+      max-height: 800px;
+      display: block;
+    }
 </style>
 
 </head>
@@ -98,16 +103,16 @@
                 <th>
                     <label for="image">Select Image:</label>
                 </th>
-                {{!-- <th>
+                <th>
                     <label for="watermarkType">Choose Platform:</label>
-                </th> --}}
+                </th>
             </tr>
             <tr>
                 <td>
-                    <input type="file" name="mainImage" accept="image/*">
+                    <input type="file" name="mainImage" accept="image/*" required>
                 </td>
-                {{!-- <td>
-                    <select id="select-box">
+                <td>
+                    <select id="select-box" required>
                         <option value="" disabled selected>Click to choose options</option>
                         <optgroup label="Instagram">
                             <option data-width="320" data-height="320">Profile Photo</option>
@@ -144,7 +149,7 @@
                             <option data-width="1080" data-height="1920">YouTube Shorts</option>
                         </optgroup>
                     </select>
-                </td> --}}
+                </td>
             </tr>
         </table>
         <button type="submit">Resize</button>
@@ -164,7 +169,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('formSubmit');
     const preview = document.getElementById('result');
     const download = document.getElementById('download-link');
-    /* const selectBox = document.getElementById('select-box');
+    const selectBox = document.getElementById('select-box');
 
     selectBox.addEventListener('change', () => {
         const selectedOption = selectBox.options[selectBox.selectedIndex];
@@ -194,8 +199,7 @@ document.addEventListener('DOMContentLoaded', () => {
         hiddenHeightInput.name = 'height';
         hiddenHeightInput.value = height;
         form.appendChild(hiddenHeightInput);
-    }); 
-    */
+    });
 
      form.addEventListener('submit', async (e) => {
         e.preventDefault();
@@ -228,11 +232,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     preview.innerHTML = 'Image processing error';
                 }
             } else {
-                preview.innerHTML = 'Server error';
+                preview.innerHTML = 'Server did not send any data';
             }
         } catch (error) {
-            console.error('Fetch error:', error);
-            preview.innerHTML = 'Fetch error';
+            console.error('Error Sending data to server:', error);
+            preview.innerHTML = 'Error Sending data to server';
         }
     });
 });
