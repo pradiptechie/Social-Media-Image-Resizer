@@ -115,6 +115,7 @@
                     <select id="select-box" required>
                         <option value="" disabled selected>Click to choose options</option>
                         <optgroup label="Instagram">
+                            //Custom data attributes always begin with "data-" and can be used to store additional data that is not part of the standard HTML attributes. eg: data-width, data-height etc..
                             <option data-width="320" data-height="320">Profile Photo</option>
                             <option data-width="1080" data-height="1080">Square Image</option>
                             <option data-width="1080" data-height="1350">Portrait Image</option>
@@ -172,6 +173,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const selectBox = document.getElementById('select-box');
 
     selectBox.addEventListener('change', () => {
+        //extracting data from selected option in dropdown
         const selectedOption = selectBox.options[selectBox.selectedIndex];
         const width = selectedOption.dataset.width;
         const height = selectedOption.dataset.height;
@@ -187,7 +189,7 @@ document.addEventListener('DOMContentLoaded', () => {
             form.removeChild(existingHeightInput);
         }
 
-        // Create and add new hidden input fields for width and height
+        // Create and add new hidden input fields to store selected data of width and height
         const hiddenWidthInput = document.createElement('input');
         hiddenWidthInput.type = 'hidden';
         hiddenWidthInput.name = 'width';
