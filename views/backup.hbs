@@ -80,23 +80,17 @@
         background: var(--blue2);
     }
 
-    #result {
+    #result, #download {
         margin: 20px;
         padding: 20px;
         background: var(--white);
         border-radius: 5px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-        justify-content: center; /* Center horizontally */
-        align-items: center; /* Center vertically */
-        
     }
     #result img {
       max-width: 100%;
       max-height: 800px;
-    }
-
-    #download{
-        
+      display: block;
     }
 </style>
 
@@ -162,11 +156,11 @@
         <button type="submit">Resize</button>
     </form>
 
-    <div id="result" style="display: none;">
+    <div id="result">
     </div>
 
-    <div id="download" style="display: none;">
-        <a id="download-link" href="#" download="resized_image.png">Download</a>
+    <div id="download">
+    <a id="download-link" href="#" download="resized_image.png" style="display: none;">Download</a>
     </div>
 
 
@@ -212,10 +206,6 @@ document.addEventListener('DOMContentLoaded', () => {
      form.addEventListener('submit', async (e) => {
         e.preventDefault();
 
-        preview.style.display = 'none';
-        download.style.display = 'none';
-
-
         const formData = new FormData(form);
 
         try {
@@ -234,14 +224,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     image.src = imageUrl;
 
                     // Clear the previous content in the "result" div
-                    preview.style.display = 'flex';
                     preview.innerHTML = '';
                     preview.appendChild(image);
 
                     // Show the download link
-                    download.style.display = 'flex';
-                    download.style.justifyContent = 'center';
-                    download.style.alignItems = 'center';
+                    download.style.display = 'block';
                     download.href = imageUrl;
                 } else {
                     preview.innerHTML = 'Image processing error';

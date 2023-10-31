@@ -44,7 +44,7 @@ app.post('/', upload.single('mainImage'), (req, res) => {
         
         const targetHeight = Math.round(originalWidth / aspectRatio); // Calculate height
         console.log(`Calculated Height: ${targetHeight}`);
-        console.log(imageBuffer);
+        // console.log(imageBuffer);
 
         console.log(`===================================================`);
 
