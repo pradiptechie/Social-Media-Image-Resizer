@@ -1,10 +1,16 @@
 const express = require('express')
 const app = express()
-const port = 3400
+const port = 3400;
+
+app.set('view engine', "hbs"); //setting view engine
+
+const path = require('path');
+app.use(express.static(path.join(__dirname, 'public'))); // Serve static files, including uploaded images
+
 
 const bodyParser = require ('body-parser');
 app.use(bodyParser.urlencoded({extended:true}));
-app.use(express.static(__dirname)); // Serve static files, including uploaded images
+
 
 const multer = require('multer');
 const upload = new multer ();
@@ -12,7 +18,6 @@ const upload = new multer ();
 const sharp = require('sharp');
 const fs = require('fs');
 
-app.set('view engine', "hbs"); //setting view engine
 
 
 app.get('/', (req, res) => {
